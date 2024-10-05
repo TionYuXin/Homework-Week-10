@@ -2,98 +2,103 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 500,
     "height": 500,
-    "title": { "text": "Scatter Plot of Subscriber Growth vs. Video Views (Last 30 Days)" },
+    "title": "Scatter Plot of Subscriber Growth vs. Video Views (Last 30 Days)",
     "params": [
-        {
-            "name": "minViews",
-            "value": 0,
-            "bind": {
-                "input": "range",
-                "min": 0,
-                "max": 100000000,
-                "step": 1000000,
-                "name": "Minimum Video Views (Last 30 Days): "
-            }
-        },
-        {
-            "name": "minSubscribers",
-            "value": 0,
-            "bind": {
-                "input": "range",
-                "min": 0,
-                "max": 1000000,
-                "step": 10000,
-                "name": "Minimum Subscriber Growth (Last 30 Days): "
-            }
+      {
+        "name": "minViews",
+        "value": 0,
+        "bind": {
+          "input": "range",
+          "min": 0,
+          "max": 2000000000,
+          "step": 1000000,
+          "name": "Minimum Total Video Views (Last 30 Days): "
         }
+      },
+      {
+        "name": "minSubscribers",
+        "value": 0,
+        "bind": {
+          "input": "range",
+          "min": 0,
+          "max": 8000000,
+          "step": 5000,
+          "name": "Minimum Total Subscriber Growth (Last 30 Days): "
+        }
+      }
     ],
     "data": {
-        "url": "https://raw.githubusercontent.com/TionYuXin/FIT3179-HOMEWORK-WEEK-9-/main/Global_YouTube_Statistics.csv"
+      "url": "https://raw.githubusercontent.com/TionYuXin/FIT3179-HOMEWORK-WEEK-9-/main/Global_YouTube_Statistics.csv"
     },
     "transform": [
-        {"window": [{"op": "rank", "as": "rank"}]},
-        {"filter": "datum.rank <= 100"},
-        {"filter": "datum.video_views_for_the_last_30_days >= minViews"},
-        {"filter": "datum.subscribers_for_last_30_days >= minSubscribers"}
+      {"window": [{"op": "rank", "as": "rank"}]},
+      {"filter": "datum.rank <= 100"},
+      {"filter": "datum.video_views_for_the_last_30_days >= minViews"},
+      {"filter": "datum.subscribers_for_last_30_days >= minSubscribers"}
     ],
     "layer": [
-        {
-            "mark": "point",
-            "encoding": {
-                "x": {
-                    "field": "subscribers_for_last_30_days",
-                    "type": "quantitative",
-                    "title": "Subscriber Growth (Last 30 Days) [Thousands]",
-                    "axis": {
-                        "labelExpr": "datum.value / 1e3 + 'K'",
-                        "format": ",.1f",
-                        "tickCount": 5
-                    }
-                },
-                "y": {
-                    "field": "video_views_for_the_last_30_days",
-                    "type": "quantitative",
-                    "title": "Video Views (Last 30 Days) [Millions]",
-                    "axis": {
-                        "labelExpr": "datum.value / 1e6 + 'M'",
-                        "format": ",.1f",
-                        "tickCount": 5
-                    }
-                },
-                "tooltip": [
-                    {"field": "Youtuber", "type": "nominal", "title": "Youtuber"},
-                    {"field": "subscribers_for_last_30_days", "type": "quantitative", "title": "Subscriber Growth (Last 30 Days) [Thousands]", "format": ",.1f"},
-                    {"field": "video_views_for_the_last_30_days", "type": "quantitative", "title": "Video Views (Last 30 Days) [Millions]", "format": ",.1f"}
-                ]
+      {
+        "mark": "point",
+        "encoding": {
+          "x": {
+            "field": "subscribers_for_last_30_days",
+            "type": "quantitative",
+            "title": "Subscriber Growth (Last 30 Days) [Thousands]",
+            "axis": {
+              "labelExpr": "datum.value / 1e3 + 'K'",
+              "format": ",.1f",
+              "tickCount": 5
             }
-        },
-        {
-            "mark": {
-                "type": "text",
-                "align": "left",
-                "baseline": "middle",
-                "dx": 5  
-            },
-            "encoding": {
-                "x": {
-                    "field": "subscribers_for_last_30_days",
-                    "type": "quantitative"
-                },
-                "y": {
-                    "field": "video_views_for_the_last_30_days",
-                    "type": "quantitative"
-                },
-                "text": {
-                    "field": "Youtuber"
-                },
-                "color": {
-                    "value": "black"
-                },
-                "opacity": {
-                    "condition": {"test": "datum.Youtuber == 'T-Series' || datum.Youtuber == 'MrBeast'", "value": 1},
-                    "value": 0
-                }
+          },
+          "y": {
+            "field": "video_views_for_the_last_30_days",
+            "type": "quantitative",
+            "title": "Video Views (Last 30 Days) [Millions]",
+            "axis": {
+              "labelExpr": "datum.value / 1e6 + 'M'",
+              "format": ",.1f",
+              "tickCount": 5
             }
+          },
+          "tooltip": [
+            {"field": "Youtuber", "type": "nominal", "title": "Youtuber"},
+            {"field": "subscribers_for_last_30_days", "type": "quantitative", "title": "Subscriber Growth (Last 30 Days) [Thousands]", "format": ",.1f"},
+            {"field": "video_views_for_the_last_30_days", "type": "quantitative", "title": "Video Views (Last 30 Days) [Millions]", "format": ",.1f"}
+          ]
+
+          
         }
+      },
+      {
+        "mark": "text",
+        "encoding": {
+          "x": {
+            "field": "subscribers_for_last_30_days",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "video_views_for_the_last_30_days",
+            "type": "quantitative"
+          },
+          "text": {
+            "field": "Youtuber",
+            "type": "nominal"
+          },
+          "opacity": {
+            "condition": {
+              "test": "datum.Youtuber == 'T-Series' || datum.Youtuber == 'MrBeast'",
+              "value": 1
+            },
+            "value": 0
+          },
+          "tooltip": [
+            {"field": "Youtuber", "type": "nominal", "title": "Youtuber"},
+            {"field": "subscribers_for_last_30_days", "type": "quantitative", "title": "Subscriber Growth (Last 30 Days) [Thousands]", "format": ",.1f"},
+            {"field": "video_views_for_the_last_30_days", "type": "quantitative", "title": "Video Views (Last 30 Days) [Millions]", "format": ",.1f"}
+          ]
+        }
+      }
     ]
-}
+  }
+  
+

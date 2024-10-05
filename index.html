@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Import Vega & Vega-Lite -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
+  
+  <!-- Link to your CSS -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+</head>
+<body>
+  
+  
+  <!-- The div where your point map will be embedded -->
+  <h1>Week 10 Homework</h1>
+  <h2>Scatter Plot: Subscriber Growth vs. Video Views (Last 30 Days)</h2>
+  <div id="Scatter"></div>
+  <h2>Map Visualization: Total View and Total Subscribers by countries</h2>
+  <div id="symbol_map"></div>
+
+  <script type="text/javascript">
+
+    var spec3 = "js/youtube_scatterplot.vl.json";
+    vegaEmbed('#Scatter', spec3).then(function(result) {
+      // Access the Vega view instance as result.view
+    }).catch(console.error);
+
+    var spec2 = "js/subscribers_views.vl.json";  // Link to your JSON spec for the map
+    vegaEmbed('#symbol_map', spec2).then(function(result) {
+      // Access the Vega view instance as result.view
+    }).catch(console.error);
+  </script>
+
+</body>
+</html>
+
